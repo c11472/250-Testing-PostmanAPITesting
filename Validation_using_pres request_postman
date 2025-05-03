@@ -1,0 +1,30 @@
+// To set the time stamp
+pm.environment.set("timestamp", new Date().toISOString());
+
+//Generate a random UUID
+const uuid = crypto.randomUUID();
+pm.environment.set("uuid", uuid);
+
+
+//Generate a random integer
+pm.environment.set("randomInt", Math.floor(Math.random() * 1000));
+
+// Set the Authorization Header token
+pm.request.headers.add({
+    key: "Authorization",
+    value: "Bearer " + pm.environment.get("accessToken")
+});
+
+
+//Create a dynamic Email
+let email = `user_${Math.floor(Math.random() * 10000)}@example.com`;
+pm.environment.set("randomEmail", email);
+
+// Check required Environment Variable
+
+const requiredVars = ['baseUrl', 'accessToken'];
+requiredVars.forEach(function (key) {
+    if (!pm.environment.get(key)) {
+        throw new Error(`Environment variable ${key} is missing`);
+    }
+});
